@@ -1,3 +1,4 @@
+import 'package:chatapplication/screens/home.dart';
 import 'package:chatapplication/service/authentication.dart';
 import 'package:chatapplication/widgets/widget.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,10 @@ class _SignUpstate extends State<SignUp> {
 
       authenticationMethods.signUpAccount(emailTextEditingController.text,
       passwordTextEditingController.text).then((value){
-        print("$value");
+        //print("${value.uid}");
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Home()
+        ));
       });
     }
   }
