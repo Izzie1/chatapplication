@@ -1,3 +1,4 @@
+import 'package:chatapplication/service/authentication.dart';
 import 'package:chatapplication/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,8 @@ class SignUp extends StatefulWidget {
 
 class _SignUpstate extends State<SignUp> {
   final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+  AuthenticationMethods authenticationMethods = new AuthenticationMethods();
   TextEditingController userNameTextEditingController =
       new TextEditingController();
   TextEditingController emailTextEditingController =
@@ -16,7 +19,16 @@ class _SignUpstate extends State<SignUp> {
       new TextEditingController();
 
   signUserAccount() {
-    if (formKey.currentState.validate()) {}
+    if (formKey.currentState.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+
+      authenticationMethods.signUpAccount(emailTextEditingController.text,
+      passwordTextEditingController.text).then((value){
+        print("$value");
+      });
+    }
   }
 
   @override
@@ -25,7 +37,9 @@ class _SignUpstate extends State<SignUp> {
         appBar: AppBar(
           backgroundColor: Colors.blue,
         ),
-        body: SingleChildScrollView(
+        body: isLoading ? Container(
+          child: Center(child: CircularProgressIndicator(),),
+        ) : SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height - 50,
             alignment: Alignment.center,
@@ -65,7 +79,8 @@ class _SignUpstate extends State<SignUp> {
                             return RegExp(r'^(?=.*?[A-Z])' //Minimum 1 Upper case
                             r'(?=.*?[a-z])' //Minimum 1 lowercase
                             r'(?=.*?[0-9])' //Minimum 1 Numeric Number
-                            r'(?=.*?[!@#\$&*~]).{8,}$').hasMatch(password)
+                            r'(?=.*?[!@#\$&*~]).{8,}$' //Minimum 1 Special Character
+                            ).hasMatch(password)
                                 ? null : "Invalid Password";
                             //TODO
                           },
