@@ -7,12 +7,17 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpstate extends State<SignUp> {
+  final formKey = GlobalKey<FormState>();
   TextEditingController userNameTextEditingController =
       new TextEditingController();
   TextEditingController emailTextEditingController =
       new TextEditingController();
   TextEditingController passwordTextEditingController =
       new TextEditingController();
+
+  signUserAccount() {
+    if (formKey.currentState.validate()) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,32 +34,46 @@ class _SignUpstate extends State<SignUp> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: TextField(
-                          decoration: textFieldInputDecoration("First Name"),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          validator: (username) {
+                            return username.length < 4 || username.isEmpty
+                                ? "Username is invalid"
+                                : null;
+                          },
+                          controller: userNameTextEditingController,
+                          decoration: textFieldInputDecoration("Username"),
                         ),
-                      ),
-                      Flexible(
-                        child: TextField(
-                          decoration: textFieldInputDecoration("Last Name"),
+                        TextFormField(
+                          validator: (email) {
+                            return RegExp(
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+"
+                                        r"-/=?^_`{|}~]+@[a-zA-Z0-9]+"
+                                        r"\.[a-zA-Z]+")
+                                    .hasMatch(email)
+                                ? null
+                                : "Invalid Email";
+                          },
+                          controller: emailTextEditingController,
+                          decoration: textFieldInputDecoration("Email"),
                         ),
-                      )
-                    ],
-                  ),
-                  TextField(
-                    controller: userNameTextEditingController,
-                    decoration: textFieldInputDecoration("Username"),
-                  ),
-                  TextField(
-                    controller: emailTextEditingController,
-                    decoration: textFieldInputDecoration("Email"),
-                  ),
-                  TextField(
-                    controller: passwordTextEditingController,
-                    decoration: textFieldInputDecoration("Password"),
+                        TextFormField(
+                          validator: (password) {
+                            return RegExp(r'^(?=.*?[A-Z])' //Minimum 1 Upper case
+                            r'(?=.*?[a-z])' //Minimum 1 lowercase
+                            r'(?=.*?[0-9])' //Minimum 1 Numeric Number
+                            r'(?=.*?[!@#\$&*~]).{8,}$').hasMatch(password)
+                                ? null : "Invalid Password";
+                            //TODO
+                          },
+                          controller: passwordTextEditingController,
+                          decoration: textFieldInputDecoration("Password"),
+                        ),
+                      ],
+                    ),
                   ),
                   Container(
                       alignment: Alignment.centerRight,
@@ -62,23 +81,29 @@ class _SignUpstate extends State<SignUp> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 8, vertical: 24),
                         child: Text("Forgot Password?"),
-                      )),
+                      )
+                  ),
                   SizedBox(
                     height: 8,
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        gradient: LinearGradient(colors: [
-                          const Color(0xff007EF4),
-                          const Color(0xff2A75BC)
-                        ])),
-                    child: Text(
-                      "Sign Up",
-                      style: customTextStyle(Colors.white),
+                  GestureDetector(
+                    onTap: () {
+                      signUserAccount();
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          gradient: LinearGradient(colors: [
+                            const Color(0xff007EF4),
+                            const Color(0xff2A75BC)
+                          ])),
+                      child: Text(
+                        "Sign Up",
+                        style: customTextStyle(Colors.white),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -112,6 +137,7 @@ class _SignUpstate extends State<SignUp> {
               ),
             ),
           ),
-        ));
+        )
+    );
   }
 }
