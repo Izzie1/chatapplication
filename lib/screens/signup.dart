@@ -1,9 +1,12 @@
 import 'package:chatapplication/screens/home.dart';
-import 'package:chatapplication/service/authentication.dart';
+import 'package:chatapplication/service/auth.dart';
 import 'package:chatapplication/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
+  final Function toggle;
+  SignUp(this.toggle);
+
   @override
   _SignUpstate createState() => _SignUpstate();
 }
@@ -11,7 +14,7 @@ class SignUp extends StatefulWidget {
 class _SignUpstate extends State<SignUp> {
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
-  AuthenticationMethods authenticationMethods = new AuthenticationMethods();
+  AuthMethods authMethods = new AuthMethods();
   TextEditingController userNameTextEditingController =
       new TextEditingController();
   TextEditingController emailTextEditingController =
@@ -25,7 +28,7 @@ class _SignUpstate extends State<SignUp> {
         isLoading = true;
       });
 
-      authenticationMethods.signUpAccount(emailTextEditingController.text,
+      authMethods.signUpAccount(emailTextEditingController.text,
       passwordTextEditingController.text).then((value){
         //print("${value.uid}");
         Navigator.pushReplacement(
@@ -79,6 +82,7 @@ class _SignUpstate extends State<SignUp> {
                           decoration: textFieldInputDecoration("Email"),
                         ),
                         TextFormField(
+                          obscureText: true,
                           validator: (password) {
                             return RegExp(r'^(?=.*?[A-Z])' //Minimum 1 Upper case
                             r'(?=.*?[a-z])' //Minimum 1 lowercase
@@ -147,9 +151,17 @@ class _SignUpstate extends State<SignUp> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Already have account? "),
-                      Text("Log In now",
-                          style:
-                              TextStyle(decoration: TextDecoration.underline))
+                      GestureDetector(
+                        onTap: (){
+                          widget.toggle();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Text("Log In now",
+                              style: TextStyle(decoration:
+                                  TextDecoration.underline)),
+                        ),
+                      )
                     ],
                   )
                 ],

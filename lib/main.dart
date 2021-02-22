@@ -1,3 +1,4 @@
+import 'package:chatapplication/helper/Authentication.dart';
 import 'package:chatapplication/screens/login.dart';
 import 'package:chatapplication/screens/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SignUp(),
+      home: Authentication(),
     );
   }
 }
