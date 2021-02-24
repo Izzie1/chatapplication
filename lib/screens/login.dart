@@ -2,6 +2,7 @@ import 'package:chatapplication/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
+
   final Function toggle;
   Login(this.toggle);
 

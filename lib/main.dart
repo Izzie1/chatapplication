@@ -1,10 +1,12 @@
 import 'package:chatapplication/helper/Authentication.dart';
+import 'package:chatapplication/screens/home.dart';
 import 'package:chatapplication/screens/login.dart';
 import 'package:chatapplication/screens/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Authentication(),
+      home: Home(),
     );
   }
 }

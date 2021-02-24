@@ -8,6 +8,7 @@ class Authentication extends StatefulWidget {
 }
 
 class _AuthenticationState extends State<Authentication> {
+
   bool isLogin = true;
 
   void toggleView() {

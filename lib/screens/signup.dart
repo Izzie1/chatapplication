@@ -1,9 +1,11 @@
 import 'package:chatapplication/screens/home.dart';
 import 'package:chatapplication/service/auth.dart';
+import 'package:chatapplication/service/database.dart';
 import 'package:chatapplication/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
+
   final Function toggle;
   SignUp(this.toggle);
 
@@ -12,9 +14,12 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpstate extends State<SignUp> {
-  final formKey = GlobalKey<FormState>();
+
   bool isLoading = false;
   AuthMethods authMethods = new AuthMethods();
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
+  final formKey = GlobalKey<FormState>();
   TextEditingController userNameTextEditingController =
       new TextEditingController();
   TextEditingController emailTextEditingController =
@@ -24,13 +29,19 @@ class _SignUpstate extends State<SignUp> {
 
   signUserAccount() {
     if (formKey.currentState.validate()) {
+      Map<String, String> userInfoMap = {
+        "name" : userNameTextEditingController.text,
+        "email" : emailTextEditingController.text,
+      };
+
       setState(() {
         isLoading = true;
       });
 
       authMethods.signUpAccount(emailTextEditingController.text,
-      passwordTextEditingController.text).then((value){
+      passwordTextEditingController.text).then((value) {
         //print("${value.uid}");
+        databaseMethods.uploadUserInfo(userInfoMap);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Home()
         ));
