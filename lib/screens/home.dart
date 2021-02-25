@@ -1,7 +1,7 @@
 import 'package:chatapplication/helper/Authentication.dart';
-import 'package:chatapplication/screens/login.dart';
 import 'package:chatapplication/service/auth.dart';
 import 'package:chatapplication/service/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -13,6 +13,34 @@ class _HomeState extends State<Home> {
   AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   TextEditingController searchTextEditingController = new TextEditingController();
+  QuerySnapshot searchSnapshot;
+
+  initiateSearch() {
+    databaseMethods
+        .getUserByUsername(searchTextEditingController.text)
+        .then((val){
+      setState(() {
+        searchSnapshot = val;
+      });
+    });
+  }
+
+  Widget searchList() {
+    return searchSnapshot != null ? ListView.builder(
+        itemCount: searchSnapshot.docs.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return SearchTile(
+            userName: searchSnapshot.docs[index].data()["name"],
+            userEmail: searchSnapshot.docs[index].data()["email"] ,
+          );
+        }) : Container();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +83,7 @@ class _HomeState extends State<Home> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      databaseMethods.getUserByUsername(
-                          searchTextEditingController.text);
+                     initiateSearch();
                     },
                     child: Container(
                       height: 40,
@@ -77,12 +104,49 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-            )
+            ),
+            searchList()
           ],
         ),
-
       ),
     );
   }
-
 }
+
+class SearchTile extends StatelessWidget {
+  final String userName;
+  final String userEmail;
+
+  SearchTile({this.userName, this.userEmail});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(userName,style: TextStyle(
+                color: Colors.blue,
+              )),
+              Text(userEmail,style: TextStyle(
+                color: Colors.blue,
+              ))
+            ],
+          ),
+          Spacer(),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(30)
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Text("Message"),
+          )
+        ],
+      ),
+    );
+  }
+}
+
