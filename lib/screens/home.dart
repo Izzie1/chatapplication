@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
                         color:
                             (_page == 0) ? Colors.orangeAccent : Colors.grey),
                     title: Text(
-                      "Chats",
+                      "Chat",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color:
