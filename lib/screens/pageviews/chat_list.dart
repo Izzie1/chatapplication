@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:funchat/services/firebase_repository.dart';
+import 'package:funchat/ultilities/utils.dart';
 import 'package:funchat/ultilities/widget.dart';
+
+import '../home.dart';
+import '../login.dart';
 
 class ChatList extends StatefulWidget {
   @override
@@ -10,6 +15,7 @@ class ChatList extends StatefulWidget {
 class _ChatListState extends State<ChatList> {
   static final FirebaseRepository _repository = FirebaseRepository();
   String currentUserId;
+  String initials;
 
   @override
   void initState() {
@@ -18,6 +24,8 @@ class _ChatListState extends State<ChatList> {
     _repository.getCurrentUser().then((user) {
       setState(() {
         currentUserId = user.uid;
+        initials = Utils.getInitials(user.displayName);
+        print("ten viet tat:"+initials);
       });
     });
   }
@@ -37,15 +45,18 @@ class _ChatListState extends State<ChatList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text("Chats",style: customTextStyle(),),
-                      Container()
+                      UserAvatar(initials)
                     ],
                   ),
                 )
             ),
             Padding(
-              padding: EdgeInsets.all(16),
-              child: TextField(
-                decoration: search(),
+              padding: EdgeInsets.all(20),
+              child: IconButton(
+                icon: Icon(Icons.search,
+                  color: Colors.black,
+                ),
+                onPressed: () {},
               ),
             )
           ],
@@ -53,4 +64,50 @@ class _ChatListState extends State<ChatList> {
       ),
     );
   }
+}
+
+class UserAvatar extends StatelessWidget {
+  final String text;
+
+  UserAvatar(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: Colors.orangeAccent,
+      ),
+      child: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              text == null ? '' : text,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
+          ),
+
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              height: 12,
+              width: 12,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.green,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
 }
