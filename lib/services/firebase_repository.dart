@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:funchat/models/account.dart';
 import 'package:funchat/services/firebase_methods.dart';
 
 class FirebaseRepository {
@@ -14,4 +15,7 @@ class FirebaseRepository {
   Future<void> addDataToDB(User user) => _firebaseMethods.addDataToDB(user);
 
   Future<void> signOut() => _firebaseMethods.signOut();
+
+  Future<List<Account>> getAllAccount(User currentUser) =>
+      _firebaseMethods.getAllAccount(currentUser);
 }

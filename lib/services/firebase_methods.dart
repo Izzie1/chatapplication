@@ -19,12 +19,12 @@ class FirebaseMethods {
   Future<User> googleSignInMethod() async {
     GoogleSignInAccount _signInAccount = await _googleSignIn.signIn();
     GoogleSignInAuthentication _sigInAuthentication =
-        await _signInAccount.authentication;
+    await _signInAccount.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: _sigInAuthentication.accessToken,
         idToken: _sigInAuthentication.idToken);
     UserCredential userCredential =
-        await _auth.signInWithCredential(credential);
+    await _auth.signInWithCredential(credential);
     return userCredential.user;
   }
 
@@ -55,7 +55,14 @@ class FirebaseMethods {
     return await _auth.signOut();
   }
 
-  Future<List<Account>> hello() async {
-
+  Future<List<Account>> getAllAccount(User currentUser) async {
+    List<Account> accountList = List<Account>();
+    QuerySnapshot querySnapshot = await fireStore.collection("users").get();
+    for (int i = 0; i > querySnapshot.docs.length; i++){
+      if(querySnapshot.docs[i].id != currentUser.uid) {
+        accountList.add(Account.fromMap(querySnapshot.docs[i].data()));
+      }
+    }
+    return accountList;
   }
 }
