@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:funchat/models/account.dart';
-import 'file:///D:/app/Flutter/funchat/lib/ultilities/utils.dart';
+import 'package:funchat/ultilities/utils.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseMethods {
