@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "8179713474",
-    "project_id": "chatapplication-1d179",
-    "storage_bucket": "chatapplication-1d179.appspot.com"
+    "project_number": "73513012236",
+    "project_id": "talktalk-884e7",
+    "storage_bucket": "talktalk-884e7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:8179713474:android:8403b35b13c649c4ef025b",
+        "mobilesdk_app_id": "1:73513012236:android:b38196d84b64bbde2af229",
         "android_client_info": {
-          "package_name": "com.yzie.flutterapp.chatapplication"
+          "package_name": "com.yzie.flutterapp.funchat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "8179713474-16r5165lfdjj2cln3m1u9k95nqn5al6m.apps.googleusercontent.com",
+          "client_id": "73513012236-7j1dq22edi4onk3bsdjj259lrktm7qtv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yzie.flutterapp.funchat",
+            "certificate_hash": "c44fa39db79976c9011a768e798dd4ebb23d9713"
+          }
+        },
+        {
+          "client_id": "73513012236-is74btng7i2qfu4bilplhkrb208796kr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDzwlhy0c0Flxv-a6cxrPhl5RAX1f-5khE"
+          "current_key": "AIzaSyCWxHPCP0fZiz4fvgnrGEHkIH_I5ZT-Reg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "8179713474-16r5165lfdjj2cln3m1u9k95nqn5al6m.apps.googleusercontent.com",
+              "client_id": "73513012236-is74btng7i2qfu4bilplhkrb208796kr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

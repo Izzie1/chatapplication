@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yzie.flutterapp.chatapplication">
+    package="com.yzie.flutterapp.funchat">
    <application
-        android:label="chatapplication"
+        android:label="funchat"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

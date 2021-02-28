@@ -1,4 +1,4 @@
-# chatapplication
+# funchat
 
 A new Flutter application.
 

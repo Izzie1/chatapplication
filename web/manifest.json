@@ -1,6 +1,6 @@
 {
-    "name": "chatapplication",
-    "short_name": "chatapplication",
+    "name": "funchat",
+    "short_name": "funchat",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
