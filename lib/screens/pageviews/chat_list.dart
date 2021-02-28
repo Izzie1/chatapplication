@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:funchat/components/chat_user_list.dart';
+import 'package:funchat/models/chatuser.dart';
 import 'package:funchat/services/firebase_repository.dart';
-import 'package:funchat/ultilities/utils.dart';
 import 'package:funchat/ultilities/widget.dart';
 
 import '../home.dart';
@@ -13,9 +13,21 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatListState extends State<ChatList> {
+  List<ChatUsers> chatUsers = [
+    ChatUsers(text: "Jane Russel", secondaryText: "Awesome Setup", image: "images/userImage1.jpeg", time: "Now"),
+    ChatUsers(text: "Glady's Murphy", secondaryText: "That's Great", image: "images/userImage2.jpeg", time: "Yesterday"),
+    ChatUsers(text: "Jorge Henry", secondaryText: "Hey where are you?", image: "images/userImage3.jpeg", time: "31 Mar"),
+    ChatUsers(text: "Philip Fox", secondaryText: "Busy! Call me in 20 mins", image: "images/userImage4.jpeg", time: "28 Mar"),
+    ChatUsers(text: "Debra Hawkins", secondaryText: "Thankyou, It's awesome", image: "images/userImage5.jpeg", time: "23 Mar"),
+    ChatUsers(text: "Jacob Pena", secondaryText: "will update you in evening", image: "images/userImage6.jpeg", time: "17 Mar"),
+    ChatUsers(text: "Andrey Jones", secondaryText: "Can you please share the file?", image: "images/userImage7.jpeg", time: "24 Feb"),
+    ChatUsers(text: "John Wick", secondaryText: "How are you?", image: "images/userImage8.jpeg", time: "18 Feb"),
+  ];
+
   static final FirebaseRepository _repository = FirebaseRepository();
   String currentUserId;
-  String initials;
+  String name;
+  String photo;
 
   @override
   void initState() {
@@ -24,8 +36,8 @@ class _ChatListState extends State<ChatList> {
     _repository.getCurrentUser().then((user) {
       setState(() {
         currentUserId = user.uid;
-        initials = Utils.getInitials(user.displayName);
-        print("ten viet tat:"+initials);
+        photo = user.photoURL;
+        name = user.displayName;
       });
     });
   }
@@ -42,23 +54,49 @@ class _ChatListState extends State<ChatList> {
                 child: Padding(
                   padding: EdgeInsets.only(left: 16, right: 16, top: 16),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text("Chats",style: customTextStyle(),),
-                      UserAvatar(initials)
+                      UserAvatar(photo, name),
+                      SizedBox(width: 16,),
+                      Text("Chat",
+                        style: customTextStyle(),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {},
+                      )
                     ],
                   ),
                 )
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(16),
               child: IconButton(
-                icon: Icon(Icons.search,
+                icon: Icon(
+                  Icons.search,
                   color: Colors.black,
                 ),
                 onPressed: () {},
               ),
-            )
+            ),
+            ListView.builder(
+              itemCount: chatUsers.length,
+              shrinkWrap: true,
+              padding: EdgeInsets.only(top: 0),
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index){
+                return ChatUsersList(
+                  text: chatUsers[index].text,
+                  secondaryText: chatUsers[index].secondaryText,
+                  image: chatUsers[index].image,
+                  time: chatUsers[index].time,
+                  isMessageRead: (index == 0 || index == 3) ? true : false,
+                );
+              },
+            ),
+
           ],
         ),
       ),
@@ -67,9 +105,10 @@ class _ChatListState extends State<ChatList> {
 }
 
 class UserAvatar extends StatelessWidget {
-  final String text;
+  final String photoURL;
+  final String name;
 
-  UserAvatar(this.text);
+  UserAvatar(this.photoURL, this.name);
 
   @override
   Widget build(BuildContext context) {
@@ -84,16 +123,18 @@ class UserAvatar extends StatelessWidget {
         children: <Widget>[
           Align(
             alignment: Alignment.center,
-            child: Text(
-              text == null ? '' : text,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
-              ),
-            ),
+            child: photoURL != null
+                ? CircleAvatar(backgroundImage: NetworkImage(photoURL))
+                : Container(
+                    child: Text(
+                      name == null ? '' : name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: Colors.white),
+                    ),
+                  ),
           ),
-
           Align(
             alignment: Alignment.bottomRight,
             child: Container(
