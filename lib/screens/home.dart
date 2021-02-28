@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
             child: ChatList(),
           ),
           Center(child: Text("Groups", style: TextStyle(color: Colors.black))),
-          Center(child: Text("Friends", style: TextStyle(color: Colors.black))),
+          Center(child: Text("Profile", style: TextStyle(color: Colors.black))),
         ],
         controller: pageController,
         onPageChanged: onPageChanged,
@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
               backgroundColor: Colors.white,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.chat,
+                    icon: Icon(Icons.chat_rounded,
                         color:
                             (_page == 0) ? Colors.orangeAccent : Colors.grey),
                     title: Text(
@@ -72,11 +72,11 @@ class _HomeState extends State<Home> {
                               (_page == 1) ? Colors.orangeAccent : Colors.grey),
                     )),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.contact_phone,
+                    icon: Icon(Icons.account_circle,
                         color:
                             (_page == 2) ? Colors.orangeAccent : Colors.grey),
                     title: Text(
-                      "Friends",
+                      "Profile",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color:
