@@ -4,7 +4,7 @@ import 'package:funchat/models/chatuser.dart';
 import 'package:funchat/services/firebase_repository.dart';
 import 'package:funchat/ultilities/widget.dart';
 
-import '../home.dart';
+import '../search.dart';
 import '../login.dart';
 
 class ChatList extends StatefulWidget {
@@ -65,7 +65,13 @@ class _ChatListState extends State<ChatList> {
                           Icons.edit,
                           color: Colors.black,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          _repository.signOut();
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context){
+                                return Login();
+                              }));
+                        },
                       )
                     ],
                   ),
@@ -78,7 +84,12 @@ class _ChatListState extends State<ChatList> {
                   Icons.search,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context){
+                        return Search();
+                      }));
+                },
               ),
             ),
             ListView.builder(
