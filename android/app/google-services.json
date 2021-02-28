@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "73513012236",
-    "project_id": "talktalk-884e7",
-    "storage_bucket": "talktalk-884e7.appspot.com"
+    "project_number": "498207548366",
+    "project_id": "funchat-a2bd4",
+    "storage_bucket": "funchat-a2bd4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:73513012236:android:b38196d84b64bbde2af229",
+        "mobilesdk_app_id": "1:498207548366:android:92ecc7a39412657957c19f",
         "android_client_info": {
           "package_name": "com.yzie.flutterapp.funchat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "73513012236-7j1dq22edi4onk3bsdjj259lrktm7qtv.apps.googleusercontent.com",
+          "client_id": "498207548366-h0eclnbhamkoo79r7793kj2v3tj0fvc5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.yzie.flutterapp.funchat",
-            "certificate_hash": "c44fa39db79976c9011a768e798dd4ebb23d9713"
+            "certificate_hash": "2828840499e03c849a8a386e0f91a2a5d494f16d"
           }
         },
         {
-          "client_id": "73513012236-is74btng7i2qfu4bilplhkrb208796kr.apps.googleusercontent.com",
+          "client_id": "498207548366-ggnt2g675ci6tenol7v14dbtk2g9a0sp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCWxHPCP0fZiz4fvgnrGEHkIH_I5ZT-Reg"
+          "current_key": "AIzaSyBoAQwv29psbk8v8W0Zn8XiM-gcCQRlkVo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "73513012236-is74btng7i2qfu4bilplhkrb208796kr.apps.googleusercontent.com",
+              "client_id": "498207548366-ggnt2g675ci6tenol7v14dbtk2g9a0sp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

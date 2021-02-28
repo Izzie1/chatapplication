@@ -54,4 +54,8 @@ class FirebaseMethods {
     await _googleSignIn.signOut();
     return await _auth.signOut();
   }
+
+  Future<List<Account>> hello() async {
+
+  }
 }
