@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class Account {
   String uid;
   String name;
@@ -8,13 +10,13 @@ class Account {
   String avatar;
 
   Account(
-      {this.uid,
-      this.name,
-      this.email,
-      this.username,
-      this.status,
-      this.state,
-      this.avatar});
+      {@required this.uid,
+      @required this.name,
+      @required this.email,
+      @required this.username,
+      @required this.status,
+      @required this.state,
+      @required this.avatar});
 
   Map toMap(Account account) {
     var data = Map<String, dynamic>();
