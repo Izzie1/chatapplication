@@ -10,13 +10,13 @@ class Account {
   String avatar;
 
   Account(
-      {@required this.uid,
-      @required this.name,
-      @required this.email,
-      @required this.username,
-      @required this.status,
-      @required this.state,
-      @required this.avatar});
+      {this.uid,
+      this.name,
+      this.email,
+      this.username,
+      this.status,
+      this.state,
+      this.avatar});
 
   Map toMap(Account account) {
     var data = Map<String, dynamic>();
