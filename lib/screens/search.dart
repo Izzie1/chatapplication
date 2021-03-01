@@ -41,9 +41,15 @@ class _SearchState extends State<Search> {
                 Container(
                   width: SizeConfig.safeBlockHorizontal * 80,
                   child: TextField(
+                    controller: searchController,
+                    onChanged: (val) {
+                      setState(() {
+                        query = val;
+                      });
+                    },
                     autofocus: true,
                     style: TextStyle(fontSize: 18),
-                    cursorColor: Colors.blueAccent,
+                    cursorColor: Colors.black,
                     decoration: InputDecoration(
                       hintText: "Search...",
                       hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 18),
@@ -60,10 +66,28 @@ class _SearchState extends State<Search> {
                   ),
                 )
               ],
-            )
+            ),
+            buildSuggestions(query),
           ],
         ),
       ),
-    ));
+    )
+    );
+  }
+
+  buildSuggestions(String query) {
+    final List<Account> suggestionList = query.isEmpty
+        ? []
+        : accountList.where((user) {
+      String _getUsername = user.username.toLowerCase();
+      String _query = query.toLowerCase();
+      String _getName = user.name.toLowerCase();
+      bool matchesUsername = _getUsername.contains(_query);
+      bool matchesName = _getName.contains(_query);
+
+      return (matchesUsername || matchesName);
+
+    }).toList();
+    return Text(suggestionList[0].username);
   }
 }
