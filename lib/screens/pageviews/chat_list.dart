@@ -14,13 +14,26 @@ class ChatList extends StatefulWidget {
 
 class _ChatListState extends State<ChatList> {
   List<ChatUsers> chatUsers = [
-    ChatUsers(text: "Jane Russel", secondaryText: "Awesome Setup", image: "images/userImage1.jpeg", time: "Now"),
     ChatUsers(
-        text: "Glady's Murphy", secondaryText: "That's Great", image: "images/userImage2.jpeg", time: "Yesterday"),
+        text: "Jane Russel",
+        secondaryText: "Awesome Setup",
+        image: "images/userImage1.jpeg",
+        time: "Now"),
     ChatUsers(
-        text: "Jorge Henry", secondaryText: "Hey where are you?", image: "images/userImage3.jpeg", time: "31 Mar"),
+        text: "Glady's Murphy",
+        secondaryText: "That's Great",
+        image: "images/userImage2.jpeg",
+        time: "Yesterday"),
     ChatUsers(
-        text: "Philip Fox", secondaryText: "Busy! Call me in 20 mins", image: "images/userImage4.jpeg", time: "28 Mar"),
+        text: "Jorge Henry",
+        secondaryText: "Hey where are you?",
+        image: "images/userImage3.jpeg",
+        time: "31 Mar"),
+    ChatUsers(
+        text: "Philip Fox",
+        secondaryText: "Busy! Call me in 20 mins",
+        image: "images/userImage4.jpeg",
+        time: "28 Mar"),
     ChatUsers(
         text: "Debra Hawkins",
         secondaryText: "Thankyou, It's awesome",
@@ -36,7 +49,11 @@ class _ChatListState extends State<ChatList> {
         secondaryText: "Can you please share the file?",
         image: "images/userImage7.jpeg",
         time: "24 Feb"),
-    ChatUsers(text: "John Wick", secondaryText: "How are you?", image: "images/userImage8.jpeg", time: "18 Feb"),
+    ChatUsers(
+        text: "John Wick",
+        secondaryText: "How are you?",
+        image: "images/userImage8.jpeg",
+        time: "18 Feb"),
   ];
 
   static final FirebaseRepository _repository = FirebaseRepository();
@@ -95,7 +112,8 @@ class _ChatListState extends State<ChatList> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(90),
                 child: Container(
-                  padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal * 3),
+                  padding:
+                      EdgeInsets.only(left: SizeConfig.safeBlockHorizontal * 3),
                   width: SizeConfig.safeBlockHorizontal * 90,
                   height: SizeConfig.safeBlockVertical * 6,
                   child: Row(
@@ -105,11 +123,13 @@ class _ChatListState extends State<ChatList> {
                       Text("Search...", style: TextStyle(fontSize: 14))
                     ],
                   ),
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(90), color: Colors.grey.withOpacity(0.2)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(90),
+                      color: Colors.grey.withOpacity(0.2)),
                 ),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Search()));
                 },
               ),
             ),
@@ -159,7 +179,10 @@ class UserAvatar extends StatelessWidget {
                 : Container(
                     child: Text(
                       name == null ? '' : name,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: Colors.white),
                     ),
                   ),
           ),
