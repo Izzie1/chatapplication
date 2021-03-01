@@ -88,6 +88,13 @@ class _SearchState extends State<Search> {
       return (matchesUsername || matchesName);
 
     }).toList();
-    return Text(suggestionList[0].username);
+    return ListView.builder(
+      itemCount: suggestionList.length,
+      shrinkWrap: true,
+      padding: EdgeInsets.only(top: 0),
+      itemBuilder: (context, index) {
+          return Text(suggestionList[index].username);
+      }
+    );
   }
 }
