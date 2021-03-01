@@ -58,7 +58,7 @@ class FirebaseMethods {
   Future<List<Account>> getAllAccount(User currentUser) async {
     List<Account> accountList = List<Account>();
     QuerySnapshot querySnapshot = await fireStore.collection("users").get();
-    for (int i = 0; i > querySnapshot.docs.length; i++){
+    for (int i = 0; i < querySnapshot.docs.length; i++){
       if(querySnapshot.docs[i].id != currentUser.uid) {
         accountList.add(Account.fromMap(querySnapshot.docs[i].data()));
       }
