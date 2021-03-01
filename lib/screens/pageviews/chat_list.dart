@@ -54,24 +54,21 @@ class _ChatListState extends State<ChatList> {
                 child: Padding(
                   padding: EdgeInsets.only(left: 16, right: 16, top: 16),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       UserAvatar(photo, name),
-                      SizedBox(width: 16,),
                       Text("Chat",
                         style: customTextStyle(),
                       ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.edit,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          _repository.signOut();
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context){
-                                return Login();
-                              }));
-                        },
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       )
                     ],
                   ),
@@ -85,10 +82,8 @@ class _ChatListState extends State<ChatList> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context){
-                        return Search();
-                      }));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Search()));
                 },
               ),
             ),

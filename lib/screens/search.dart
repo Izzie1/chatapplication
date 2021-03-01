@@ -29,6 +29,9 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+
+      ),
       body: Container(
         padding: EdgeInsets.only(top: 16,left: 16,right: 16),
         child: TextField(
