@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funchat/models/account.dart';
+import 'package:funchat/screens/chat.dart';
 import 'package:funchat/services/firebase_repository.dart';
 import 'package:funchat/ultilities/sizeconfig.dart';
 import 'package:funchat/ultilities/tile.dart';
@@ -53,6 +54,13 @@ class _SearchState extends State<Search> {
                     style: TextStyle(fontSize: 18),
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.close, color: Colors.grey),
+                        onPressed: () {
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((_) => searchController.clear());
+                        },
+                      ),
                       hintText: "Search...",
                       hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 18),
                       filled: true,
@@ -102,9 +110,13 @@ class _SearchState extends State<Search> {
             name: suggestionList[index].name,
             username: suggestionList[index].username);
 
-        return CustomTile(
+        return Tile(
           mini: true,
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Chat(receiver: searchedUser))
+            );
+          },
           leading: UserAvatar(searchedUser.avatar),
           title: Text(
             searchedUser.username,
