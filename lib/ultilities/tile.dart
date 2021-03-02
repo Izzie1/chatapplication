@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomTile extends StatelessWidget {
+class Tile extends StatelessWidget {
   final Widget leading;
   final Widget title;
   final Widget icon;
@@ -11,7 +11,7 @@ class CustomTile extends StatelessWidget {
   final GestureTapCallback onTap;
   final GestureLongPressCallback onLongPress;
 
-  CustomTile({
+  Tile({
     @required this.leading,
     @required this.title,
     this.icon,
