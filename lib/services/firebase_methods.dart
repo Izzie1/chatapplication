@@ -41,6 +41,7 @@ class FirebaseMethods {
         uid: currentUser.uid,
         email: currentUser.email,
         name: currentUser.displayName,
+        avatar: currentUser.photoURL,
         username: Utils.getUsername(currentUser.email));
 
     fireStore
