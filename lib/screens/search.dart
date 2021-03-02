@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:funchat/models/account.dart';
 import 'package:funchat/services/firebase_repository.dart';
 import 'package:funchat/ultilities/sizeconfig.dart';
+import 'package:funchat/ultilities/tile.dart';
+import 'package:funchat/ultilities/user_avatar.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -67,7 +69,9 @@ class _SearchState extends State<Search> {
                 )
               ],
             ),
-            buildSuggestions(query),
+            Container(
+              child: buildSuggestions(query),
+            )
           ],
         ),
       ),
@@ -91,10 +95,30 @@ class _SearchState extends State<Search> {
     return ListView.builder(
       itemCount: suggestionList.length,
       shrinkWrap: true,
-      padding: EdgeInsets.only(top: 0),
-      itemBuilder: (context, index) {
-          return Text(suggestionList[index].username);
-      }
+      itemBuilder: ((context, index) {
+        Account searchedUser = Account(
+            uid: suggestionList[index].uid,
+            avatar: suggestionList[index].avatar,
+            name: suggestionList[index].name,
+            username: suggestionList[index].username);
+
+        return CustomTile(
+          mini: true,
+          onTap: () {},
+          leading: UserAvatar(searchedUser.avatar),
+          title: Text(
+            searchedUser.username,
+            style: TextStyle(
+              color: Colors.orange,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          subtitle: Text(
+            searchedUser.name,
+            style: TextStyle(color: Colors.grey),
+          ),
+        );
+      }),
     );
   }
 }
