@@ -98,7 +98,7 @@ class _ChatListState extends State<ChatList> {
                 padding: EdgeInsets.all(12),
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return CustomTile(
+                  return Tile(
                     mini: false,
                     onTap: () {},
                     title: Text(
