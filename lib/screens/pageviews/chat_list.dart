@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:funchat/screens/login.dart';
 import 'package:funchat/services/firebase_repository.dart';
-import 'package:funchat/ultilities/sizeconfig.dart';
-import 'package:funchat/ultilities/tile.dart';
-import 'package:funchat/ultilities/user_avatar.dart';
-import 'package:funchat/ultilities/widget.dart';
+import 'file:///D:/app/Flutter/funchat/lib/components/sizeconfig.dart';
+import 'file:///D:/app/Flutter/funchat/lib/components/tile.dart';
+import 'file:///D:/app/Flutter/funchat/lib/components/user_avatar.dart';
+import 'file:///D:/app/Flutter/funchat/lib/components/widget.dart';
 
 import '../search.dart';
 
