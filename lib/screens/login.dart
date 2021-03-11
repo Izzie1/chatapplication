@@ -22,12 +22,16 @@ class _LoginState extends State<Login> {
           baseColor: Colors.white,
           highlightColor: Color(0xff2b343b),
           child: FlatButton(
-              padding: EdgeInsets.all(35),
-              child: Text(
-                "Login", style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900,letterSpacing: 1.2),
-              ),
-              onPressed: performLogin,
+            padding: EdgeInsets.all(35),
+            child: Text(
+              "Login",
+              style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 1.2),
             ),
+            onPressed: performLogin,
+          ),
         ),
       ),
     );
@@ -42,19 +46,23 @@ class _LoginState extends State<Login> {
   }
 
   void authenticateUser(User user) {
-    _repository.authenticateUser(user).then((isNewUser){
-      if(isNewUser) {
-        _repository.addDataToDB(user).then((value){
-          Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context){
+    _repository.authenticateUser(user).then((isNewUser) {
+      if (mounted) {
+        setState(() {
+          if (isNewUser) {
+            _repository.addDataToDB(user).then((value) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return Home();
+              }));
+            });
+          } else {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) {
               return Home();
             }));
+          }
         });
-      } else {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context){
-              return Home();
-            }));
       }
     });
   }

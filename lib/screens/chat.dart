@@ -127,6 +127,7 @@ class _ChatState extends State<Chat> {
         }
         return ListView.builder(
           padding: EdgeInsets.all(10),
+          reverse: true,
           itemCount: snapshot.data.docs.length,
           itemBuilder: (context,index) {
             return chatMessageItem(snapshot.data.docs[index]);
