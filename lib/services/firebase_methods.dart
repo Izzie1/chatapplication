@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:funchat/models/account.dart';
 import 'package:funchat/models/message.dart';
+import 'package:funchat/provider/image_upload_provider.dart';
 import 'package:funchat/ultilities/utils.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -10,6 +14,8 @@ class FirebaseMethods {
   GoogleSignIn _googleSignIn = GoogleSignIn();
   static final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   Account account;
+  FirebaseStorage storage = FirebaseStorage.instance;
+  Reference ref;
 
   Future<User> getCurrentUser() async {
     User user;
@@ -81,5 +87,51 @@ class FirebaseMethods {
         .doc(message.receiverId)
         .collection(message.senderId)
         .add(map);
+  }
+
+  Future<String> uploadImageToStorage(File image) async {
+    try {
+      ref = storage.ref().child('${DateTime.now().millisecondsSinceEpoch}');
+
+      UploadTask uploadTask = ref.putFile(image);
+
+      var imageUrl = await (await uploadTask).ref.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  void setImageMessage(String url, String receiverId, String senderId) async {
+    Message message;
+
+    message = Message.imageMessage(
+        message: "IMAGE",
+        receiverId: receiverId,
+        senderId: senderId,
+        photoUrl: url,
+        timestamp: Timestamp.now(),
+        type: 'image'
+    );
+
+    var map = message.toImageMap();
+
+    await fireStore.collection("messages")
+        .doc(message.senderId)
+        .collection(message.receiverId)
+        .add(map);
+
+    await fireStore.collection("messages")
+        .doc(message.receiverId)
+        .collection(message.senderId)
+        .add(map);
+  }
+
+  void uploadImage(File image, String receiverId,
+      String senderId, ImageUploadProvider imageUploadProvider) async {
+    imageUploadProvider.setToLoading();
+    String url = await uploadImageToStorage(image);
+    imageUploadProvider.setToIdle();
+    setImageMessage(url, receiverId, senderId);
   }
 }

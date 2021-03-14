@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:funchat/models/account.dart';
 import 'package:funchat/models/message.dart';
+import 'package:funchat/provider/image_upload_provider.dart';
 import 'package:funchat/services/firebase_methods.dart';
 
 class FirebaseRepository {
@@ -22,4 +26,11 @@ class FirebaseRepository {
 
   Future<void> addMessageToDb(Message message, Account sender, Account receiver) =>
       _firebaseMethods.addMessageToDb(message, sender, receiver);
+
+  void uploadImage({
+    @required File image,
+    @required String receiverId,
+    @required String senderId,
+    @required ImageUploadProvider imageUploadProvider
+  }) => _firebaseMethods.uploadImage(image, receiverId, senderId, imageUploadProvider);
 }

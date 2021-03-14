@@ -1,3 +1,10 @@
+import 'dart:io';
+import 'dart:math';
+import 'package:image/image.dart' as Im;
+import 'package:image_picker/image_picker.dart';
+import 'package:meta/meta.dart';
+import 'package:path_provider/path_provider.dart';
+
 class Utils {
   static String getUsername(String email) {
     return "${email.split('@')[0]}";
@@ -8,5 +15,12 @@ class Utils {
     String firstNameInitial = nameSplit[0][0];
     String lastNameInitial = nameSplit[1][0];
     return firstNameInitial + lastNameInitial;
+  }
+
+  static Future<File> pickImage({@required ImageSource source}) async {
+    PickedFile file = await ImagePicker().getImage(
+        source: source, maxWidth: 500, maxHeight: 500, imageQuality: 85);
+    File selectedImage = File(file.path);
+    return selectedImage;
   }
 }

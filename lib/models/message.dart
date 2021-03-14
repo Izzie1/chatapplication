@@ -22,6 +22,16 @@ class Message {
     data["type"] = this.type;
     data["message"] = this.message;
     data["timestamp"] = this.timestamp;
+    return data;
+  }
+
+  Map toImageMap() {
+    var data = Map<String, dynamic>();
+    data["senderId"] = this.senderId;
+    data["receiveId"] = this.receiverId;
+    data["type"] = this.type;
+    data["message"] = this.message;
+    data["timestamp"] = this.timestamp;
     data["photoUrl"] = this.photoUrl;
     return data;
   }
@@ -32,5 +42,6 @@ class Message {
     this.type = mapData['type'];
     this.message = mapData['message'];
     this.timestamp = mapData['timestamp'];
+    this.photoUrl = mapData["photoUrl"];
   }
 }

@@ -25,7 +25,7 @@ class _ChatListState extends State<ChatList> {
     super.initState();
     _repository.getCurrentUser().then((user) {
       setState(() {
-        currentUserId = user?.uid;
+        currentUserId = user.uid;
         photo = user.photoURL;
         name = user.displayName;
       });

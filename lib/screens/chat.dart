@@ -1,11 +1,18 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:funchat/enum/view_state.dart';
 import 'package:funchat/models/account.dart';
 import 'file:///D:/app/Flutter/funchat/lib/components/tile.dart';
 import 'file:///D:/app/Flutter/funchat/lib/components/user_avatar.dart';
 import 'package:funchat/models/message.dart';
+import 'package:funchat/provider/image_upload_provider.dart';
 import 'package:funchat/services/firebase_repository.dart';
+import 'package:funchat/ultilities/utils.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class Chat extends StatefulWidget {
   final Account receiver;
@@ -19,6 +26,7 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   TextEditingController textFieldController = TextEditingController();
   FirebaseRepository _repository = new FirebaseRepository();
+  ImageUploadProvider imageUploadProvider;
   String currentUserId;
   Account sender;
   bool isWriting = false;
@@ -42,6 +50,8 @@ class _ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
+    imageUploadProvider = Provider.of<ImageUploadProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
@@ -57,12 +67,12 @@ class _ChatState extends State<Chat> {
           ),
         ),
         leading: IconButton(
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios_sharp,
-          )
+            onPressed: (){
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_sharp,
+            )
         ),
         title:  Container(
           child: Row(
@@ -74,7 +84,7 @@ class _ChatState extends State<Chat> {
               Column(
                 children: [
                   Text(widget.receiver.name,
-                      style: TextStyle(
+                    style: TextStyle(
                         fontSize: 16
                     ),
                   ),
@@ -107,6 +117,13 @@ class _ChatState extends State<Chat> {
           Flexible(
             child: messageList(),
           ),
+          imageUploadProvider.getViewSate == ViewState.LOADING
+              ? Container(
+                        alignment: Alignment.centerRight,
+              margin: EdgeInsets.only(right: 15),
+              child: CircularProgressIndicator()
+          )
+              : Container(),
           chatControls(),
         ],
       ),
@@ -168,8 +185,8 @@ class _ChatState extends State<Chat> {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(10),
-        child: getMessage(_message)
+          padding: EdgeInsets.all(10),
+          child: getMessage(_message)
       ),
     );
   }
@@ -197,7 +214,9 @@ class _ChatState extends State<Chat> {
   }
 
   getMessage(Message message) {
-    return Text(
+    return message.type == "image" ?
+    Image.network(message.photoUrl) :
+    Text(
       message.message,
       style: TextStyle(
         color: Colors.white,
@@ -326,10 +345,6 @@ class _ChatState extends State<Chat> {
                 EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 filled: true,
                 fillColor: Colors.grey,
-                suffixIcon: GestureDetector(
-                  onTap: () {},
-                  child: Icon(Icons.face),
-                ),
               ),
             ),
           ),
@@ -339,7 +354,14 @@ class _ChatState extends State<Chat> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Icon(Icons.record_voice_over),
           ),
-          isWriting ? Container() : Icon(Icons.camera_alt),
+          isWriting
+              ? Container()
+              : GestureDetector(
+            onTap: () => pickImage(source: ImageSource.camera),
+            child: Icon(
+              Icons.image,
+            ),
+          ),
           isWriting
               ? Container(
               margin: EdgeInsets.only(left: 10),
@@ -378,6 +400,15 @@ class _ChatState extends State<Chat> {
     _repository.addMessageToDb(message, sender, widget.receiver);
   }
 
+  pickImage({@required ImageSource source}) async {
+    File selectedImage = await Utils.pickImage(source: source);
+    _repository.uploadImage(
+      image: selectedImage,
+      receiverId: widget.receiver.uid,
+      senderId: currentUserId,
+      imageUploadProvider: imageUploadProvider,
+    );
+  }
 }
 
 
