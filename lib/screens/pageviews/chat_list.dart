@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:funchat/services/firebase_repository.dart';
 import 'package:funchat/ultilities/utils.dart';
-import 'package:funchat/ultilities/widget.dart';
 
+import '../../ultilities/widget.dart';
 import '../home.dart';
 import '../login.dart';
 
