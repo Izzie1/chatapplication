@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:funchat/services/firebase_repository.dart';
 import 'package:funchat/ultilities/utils.dart';
 
-import '../../ultilities/widget.dart';
+import '../../components/widget.dart';
 import '../home.dart';
 import '../login.dart';
 
