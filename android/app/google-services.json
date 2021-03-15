@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "498207548366-h0eclnbhamkoo79r7793kj2v3tj0fvc5.apps.googleusercontent.com",
+          "client_id": "498207548366-h9ae1q8vo7j0mcjcjkcqjp67u5fed0hr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yzie.flutterapp.funchat",
+            "certificate_hash": "ea25dadf9ee2f6f7addb17d57787b1fb19f72ee3"
+          }
+        },
+        {
+          "client_id": "498207548366-kjl9r7r7a47v5ot8ditl3v8ib7e0mlmn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.yzie.flutterapp.funchat",

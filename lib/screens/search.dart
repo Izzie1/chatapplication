@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:funchat/components/sizeconfig.dart';
+import 'package:funchat/components/tile.dart';
+import 'package:funchat/components/user_avatar.dart';
 import 'package:funchat/models/account.dart';
 import 'package:funchat/screens/chat.dart';
 import 'package:funchat/services/firebase_repository.dart';
-import 'file:///D:/app/Flutter/funchat/lib/components/sizeconfig.dart';
-import 'file:///D:/app/Flutter/funchat/lib/components/tile.dart';
-import 'file:///D:/app/Flutter/funchat/lib/components/user_avatar.dart';
 
 class Search extends StatefulWidget {
   @override
