@@ -18,12 +18,12 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<ImageUploadProvider>(
       create: (context) => ImageUploadProvider(),
       child: MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Login()
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: Login()
       ),
     );
   }

@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:funchat/components/tile.dart';
-import 'package:funchat/components/user_avatar.dart';
 import 'package:funchat/enum/view_state.dart';
 import 'package:funchat/models/account.dart';
 import 'package:funchat/models/message.dart';
@@ -13,6 +11,9 @@ import 'package:funchat/services/firebase_repository.dart';
 import 'package:funchat/ultilities/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+
+import '../components/tile.dart';
+import '../components/user_avatar.dart';
 
 class Chat extends StatefulWidget {
   final Account receiver;
@@ -119,7 +120,7 @@ class _ChatState extends State<Chat> {
           ),
           imageUploadProvider.getViewSate == ViewState.LOADING
               ? Container(
-                        alignment: Alignment.centerRight,
+              alignment: Alignment.centerRight,
               margin: EdgeInsets.only(right: 15),
               child: CircularProgressIndicator()
           )

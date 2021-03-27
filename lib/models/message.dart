@@ -9,11 +9,11 @@ class Message {
   String photoUrl;
 
   Message({this.senderId, this.receiverId, this.type, this.message,
-      this.timestamp});
+    this.timestamp});
 
 
   Message.imageMessage({this.senderId, this.receiverId, this.type, this.message,
-      this.timestamp, this.photoUrl});
+    this.timestamp, this.photoUrl});
 
   Map toMap() {
     var data = Map<String, dynamic>();

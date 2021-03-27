@@ -1,11 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:funchat/screens/login.dart';
 import 'package:funchat/services/firebase_repository.dart';
-import 'package:funchat/ultilities/utils.dart';
 
+
+import '../../components/sizeconfig.dart';
+import '../../components/tile.dart';
+import '../../components/user_avatar.dart';
 import '../../components/widget.dart';
-import '../home.dart';
-import '../login.dart';
+import '../search.dart';
 
 class ChatList extends StatefulWidget {
   @override
@@ -15,7 +17,8 @@ class ChatList extends StatefulWidget {
 class _ChatListState extends State<ChatList> {
   static final FirebaseRepository _repository = FirebaseRepository();
   String currentUserId;
-  String initials;
+  String name;
+  String photo;
 
   @override
   void initState() {
@@ -24,14 +27,15 @@ class _ChatListState extends State<ChatList> {
     _repository.getCurrentUser().then((user) {
       setState(() {
         currentUserId = user.uid;
-        initials = Utils.getInitials(user.displayName);
-        print("ten viet tat:"+initials);
+        photo = user.photoURL;
+        name = user.displayName;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -44,20 +48,97 @@ class _ChatListState extends State<ChatList> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text("Chats",style: customTextStyle(),),
-                      UserAvatar(initials)
+                      UserAvatar(photo),
+                      Text(
+                        "Chat",
+                        style: customTextStyle(),
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 )
             ),
             Padding(
-              padding: EdgeInsets.all(20),
-              child: IconButton(
-                icon: Icon(Icons.search,
-                  color: Colors.black,
+              padding: EdgeInsets.all(16),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(90),
+                child: Container(
+                  padding:
+                  EdgeInsets.only(left: SizeConfig.safeBlockHorizontal * 3),
+                  width: SizeConfig.safeBlockHorizontal * 90,
+                  height: SizeConfig.safeBlockVertical * 6,
+                  child: Row(
+                    children: [
+                      Icon(Icons.search, size: 16),
+                      SizedBox(width: SizeConfig.safeBlockHorizontal * 3),
+                      Text("Search...", style: TextStyle(fontSize: 14))
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(90),
+                      color: Colors.grey.withOpacity(0.2)),
                 ),
-                onPressed: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Search()));
+                },
               ),
+            ),
+            ListView.builder(
+                itemCount: 15,
+                shrinkWrap: true,
+                padding: EdgeInsets.all(12),
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Tile(
+                    mini: false,
+                    onTap: () {},
+                    title: Text(
+                      "Dummy Data",
+                      style: TextStyle(
+                          color: Colors.orangeAccent, fontFamily: "Arial", fontSize: 19),
+                    ),
+                    subtitle: Text(
+                      "Hello",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                    ),
+                    leading: Container(
+                      constraints: BoxConstraints(maxHeight: 50, maxWidth: 50),
+                      child: Stack(
+                        children: <Widget>[
+                          CircleAvatar(
+                            maxRadius: 50,
+                            backgroundColor: Colors.black,
+                            backgroundImage: AssetImage("images/avatar.png"),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: Container(
+                              height: 14,
+                              width: 14,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.green,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
             )
           ],
         ),
@@ -66,48 +147,4 @@ class _ChatListState extends State<ChatList> {
   }
 }
 
-class UserAvatar extends StatelessWidget {
-  final String text;
 
-  UserAvatar(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      width: 40,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: Colors.orangeAccent,
-      ),
-      child: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              text == null ? '' : text,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
-              ),
-            ),
-          ),
-
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-              height: 12,
-              width: 12,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.green,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-}
