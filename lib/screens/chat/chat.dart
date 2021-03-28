@@ -7,13 +7,14 @@ import 'package:funchat/enum/view_state.dart';
 import 'package:funchat/models/account.dart';
 import 'package:funchat/models/message.dart';
 import 'package:funchat/provider/image_upload_provider.dart';
+import 'package:funchat/screens/chat/cached_image.dart';
 import 'package:funchat/services/firebase_repository.dart';
 import 'package:funchat/ultilities/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../components/tile.dart';
-import '../components/user_avatar.dart';
+import '../../components/tile.dart';
+import '../../components/user_avatar.dart';
 
 class Chat extends StatefulWidget {
   final Account receiver;
@@ -216,7 +217,7 @@ class _ChatState extends State<Chat> {
 
   getMessage(Message message) {
     return message.type == "image" ?
-    Image.network(message.photoUrl) :
+    CachedImage(url: message.photoUrl) :
     Text(
       message.message,
       style: TextStyle(
@@ -271,6 +272,7 @@ class _ChatState extends State<Chat> {
                   child: ListView(
                     children: <Widget>[
                       ModalTile(
+                        onTap: () => pickImage(source: ImageSource.gallery),
                         title: "Media",
                         subtitle: "Share Photos and Video",
                         icon: Icons.image,
@@ -418,11 +420,13 @@ class ModalTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData icon;
+  final Function onTap;
 
   const ModalTile({
     @required this.title,
     @required this.subtitle,
     @required this.icon,
+    this.onTap
   });
 
   @override
@@ -431,6 +435,7 @@ class ModalTile extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 15),
       child: Tile(
         mini: false,
+        onTap: onTap,
         leading: Container(
           margin: EdgeInsets.only(right: 10),
           decoration: BoxDecoration(

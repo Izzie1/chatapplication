@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:funchat/screens/pageviews/chat_list.dart';
+
+import 'pageviews/chat_list.dart';
 
 class Home extends StatefulWidget {
   @override
