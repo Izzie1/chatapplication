@@ -3,8 +3,9 @@ import 'package:funchat/components/sizeconfig.dart';
 import 'package:funchat/components/tile.dart';
 import 'package:funchat/components/user_avatar.dart';
 import 'package:funchat/models/account.dart';
-import 'package:funchat/screens/chat.dart';
 import 'package:funchat/services/firebase_repository.dart';
+
+import 'chat/chat.dart';
 
 class Search extends StatefulWidget {
   @override
