@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:funchat/provider/account_provider.dart';
+import 'package:funchat/screens/call/pickup/pickup_layout.dart';
+import 'package:provider/provider.dart';
 
 import 'pageviews/chat_list.dart';
 
@@ -9,6 +13,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  AccountProvider accountProvider;
   PageController pageController;
   int _page = 0;
 
@@ -16,6 +21,10 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      accountProvider = Provider.of<AccountProvider>(context, listen: false);
+      accountProvider.refreshUser();
+    });
     pageController = PageController();
   }
 
@@ -31,62 +40,64 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: PageView(
-        children: <Widget>[
-          Container(
-            child: ChatList(),
-          ),
-          Center(child: Text("Groups", style: TextStyle(color: Colors.black))),
-          Center(child: Text("Profile", style: TextStyle(color: Colors.black))),
-        ],
-        controller: pageController,
-        onPageChanged: onPageChanged,
-      ),
-      bottomNavigationBar: Container(
-        child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: CupertinoTabBar(
-              backgroundColor: Colors.white,
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.chat_rounded,
-                        color:
-                            (_page == 0) ? Colors.orangeAccent : Colors.grey),
-                    title: Text(
-                      "Chat",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
+    return PickupLayout(
+      scaffold: Scaffold(
+        backgroundColor: Colors.white,
+        body: PageView(
+          children: <Widget>[
+            Container(
+              child: ChatList(),
+            ),
+            Center(child: Text("Groups", style: TextStyle(color: Colors.black))),
+            Center(child: Text("Profile", style: TextStyle(color: Colors.black))),
+          ],
+          controller: pageController,
+          onPageChanged: onPageChanged,
+        ),
+        bottomNavigationBar: Container(
+          child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: CupertinoTabBar(
+                backgroundColor: Colors.white,
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.chat_rounded,
                           color:
                               (_page == 0) ? Colors.orangeAccent : Colors.grey),
-                    )),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.group,
-                        color:
-                            (_page == 1) ? Colors.orangeAccent : Colors.grey),
-                    title: Text(
-                      "Groups",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                      title: Text(
+                        "Chat",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color:
+                                (_page == 0) ? Colors.orangeAccent : Colors.grey),
+                      )),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.group,
                           color:
                               (_page == 1) ? Colors.orangeAccent : Colors.grey),
-                    )),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.account_circle,
-                        color:
-                            (_page == 2) ? Colors.orangeAccent : Colors.grey),
-                    title: Text(
-                      "Profile",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                      title: Text(
+                        "Groups",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color:
+                                (_page == 1) ? Colors.orangeAccent : Colors.grey),
+                      )),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.account_circle,
                           color:
                               (_page == 2) ? Colors.orangeAccent : Colors.grey),
-                    ))
-              ],
-              onTap: navigationTapped,
-              currentIndex: _page,
-            )),
+                      title: Text(
+                        "Profile",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color:
+                                (_page == 2) ? Colors.orangeAccent : Colors.grey),
+                      ))
+                ],
+                onTap: navigationTapped,
+                currentIndex: _page,
+              )),
+        ),
       ),
     );
   }

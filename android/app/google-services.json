@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "498207548366-ujgcphjir68ll6hiibhbmi1mudo60dlt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yzie.flutterapp.funchat",
+            "certificate_hash": "8999275dc7bdbfe7a5a660e45ddac4385631e4d9"
+          }
+        },
+        {
           "client_id": "498207548366-ggnt2g675ci6tenol7v14dbtk2g9a0sp.apps.googleusercontent.com",
           "client_type": 3
         }

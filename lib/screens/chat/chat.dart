@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:funchat/enum/view_state.dart';
 import 'package:funchat/models/account.dart';
@@ -9,6 +8,8 @@ import 'package:funchat/models/message.dart';
 import 'package:funchat/provider/image_upload_provider.dart';
 import 'package:funchat/screens/chat/cached_image.dart';
 import 'package:funchat/services/firebase_repository.dart';
+import 'package:funchat/ultilities/call_ultils.dart';
+import 'package:funchat/ultilities/permissions.dart';
 import 'package:funchat/ultilities/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -106,8 +107,12 @@ class _ChatState extends State<Chat> {
               )
           ),
           IconButton(
-              onPressed: (){
-              },
+              onPressed: () async => await Permissions.cameraAndMicrophonePermissionsGranted() ?
+              CallUtils.dial(
+                  from: sender,
+                  to: widget.receiver,
+                  context: context
+              ) : {},
               icon: Icon(
                 Icons.videocam,
               )
@@ -217,7 +222,10 @@ class _ChatState extends State<Chat> {
 
   getMessage(Message message) {
     return message.type == "image" ?
-    CachedImage(url: message.photoUrl) :
+    CachedImage(message.photoUrl,
+      height: 250,
+      width: 250,
+      radius: 10,) :
     Text(
       message.message,
       style: TextStyle(
@@ -413,8 +421,6 @@ class _ChatState extends State<Chat> {
     );
   }
 }
-
-
 
 class ModalTile extends StatelessWidget {
   final String title;

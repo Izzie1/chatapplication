@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:funchat/enum/view_state.dart';
 
-class ImageUploadProvider with ChangeNotifier {
+class ImageUploadProvider extends ChangeNotifier {
   ViewState viewState = ViewState.IDLE;
   ViewState get  getViewSate => viewState;
 

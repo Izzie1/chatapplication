@@ -13,6 +13,7 @@ class FirebaseMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
   static final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  static final CollectionReference userCollection = fireStore.collection("users");
   Account account;
   FirebaseStorage storage = FirebaseStorage.instance;
   Reference ref;
@@ -133,5 +134,14 @@ class FirebaseMethods {
     String url = await uploadImageToStorage(image);
     imageUploadProvider.setToIdle();
     setImageMessage(url, receiverId, senderId);
+  }
+
+  Future<Account> getUserDetails() async {
+    User currentUser = await getCurrentUser();
+
+    DocumentSnapshot documentSnapshot = await userCollection
+        .doc(currentUser.uid).get();
+
+    return Account.fromMap(documentSnapshot.data());
   }
 }
