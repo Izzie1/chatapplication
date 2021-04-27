@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:funchat/components/user_avatar.dart';
 import 'package:funchat/provider/account_provider.dart';
 import 'package:funchat/screens/call/pickup/pickup_layout.dart';
+import 'package:funchat/screens/pageviews/profilePage.dart';
+import 'package:funchat/services/firebase_repository.dart';
 import 'package:provider/provider.dart';
 
 import 'pageviews/chat_list.dart';
@@ -13,6 +18,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  static final FirebaseRepository _repository = FirebaseRepository();
+  String currentUserId;
+  String name;
+  String photo;
   AccountProvider accountProvider;
   PageController pageController;
   int _page = 0;
@@ -21,6 +30,13 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _repository.getCurrentUser().then((user) {
+      setState(() {
+        currentUserId = user.uid;
+        photo = user.photoURL;
+        name = user.displayName;
+      });
+    });
     SchedulerBinding.instance.addPostFrameCallback((_) {
       accountProvider = Provider.of<AccountProvider>(context, listen: false);
       accountProvider.refreshUser();
@@ -42,14 +58,32 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return PickupLayout(
       scaffold: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.orangeAccent,
+          leading: UserAvatar(photo),
+          title: Center(
+            child: Text("Salut"),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.edit,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
         backgroundColor: Colors.white,
         body: PageView(
           children: <Widget>[
             Container(
               child: ChatList(),
             ),
-            Center(child: Text("Groups", style: TextStyle(color: Colors.black))),
-            Center(child: Text("Profile", style: TextStyle(color: Colors.black))),
+            Center(
+                child: Text("Groups", style: TextStyle(color: Colors.black))),
+            Center(
+              child: ProfilePage(),
+              )
           ],
           controller: pageController,
           onPageChanged: onPageChanged,
@@ -68,8 +102,9 @@ class _HomeState extends State<Home> {
                         "Chat",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color:
-                                (_page == 0) ? Colors.orangeAccent : Colors.grey),
+                            color: (_page == 0)
+                                ? Colors.orangeAccent
+                                : Colors.grey),
                       )),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.group,
@@ -79,8 +114,9 @@ class _HomeState extends State<Home> {
                         "Groups",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color:
-                                (_page == 1) ? Colors.orangeAccent : Colors.grey),
+                            color: (_page == 1)
+                                ? Colors.orangeAccent
+                                : Colors.grey),
                       )),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.account_circle,
@@ -90,8 +126,9 @@ class _HomeState extends State<Home> {
                         "Profile",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color:
-                                (_page == 2) ? Colors.orangeAccent : Colors.grey),
+                            color: (_page == 2)
+                                ? Colors.orangeAccent
+                                : Colors.grey),
                       ))
                 ],
                 onTap: navigationTapped,

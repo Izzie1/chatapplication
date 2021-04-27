@@ -16,24 +16,63 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff19191b),
-      body: Center(
-        child: Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Color(0xff2b343b),
-          child: FlatButton(
-            padding: EdgeInsets.all(35),
-            child: Text(
-              "Login",
-              style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1.2),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.orangeAccent,
+        title: Text("Welcome"),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SizedBox(height :90),
+            Padding(
+              padding: const EdgeInsets.only(top: 60.0),
+              child: Center(
+                child: Container(
+                    width: 200,
+                    height: 150,
+                    /*decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(50.0)),*/
+                    child: Image.asset('assets/images/icon.png')),
+              ),
             ),
-            onPressed: performLogin,
-          ),
+            SizedBox(
+              height: 50,
+            ),
+            Container(
+              height: 50,
+              width: 250,
+              decoration: BoxDecoration(
+                  color: Colors.orange, borderRadius: BorderRadius.circular(20)),
+              child: FlatButton(
+                onPressed: performLogin,
+                child: Text(
+                  'Login',
+                  style: TextStyle(color: Colors.white, fontSize: 25),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
+      // body: Center(
+      //   child: Shimmer.fromColors(
+      //     baseColor: Colors.white,
+      //     highlightColor: Color(0xff2b343b),
+      //     child: FlatButton(
+      //       padding: EdgeInsets.all(35),
+      //       child: Text(
+      //         "Login",
+      //         style: TextStyle(
+      //             fontSize: 35,
+      //             fontWeight: FontWeight.w900,
+      //             letterSpacing: 1.2),
+      //       ),
+      //       onPressed: performLogin,
+      //     ),
+      //   ),
+      // ),
     );
   }
 

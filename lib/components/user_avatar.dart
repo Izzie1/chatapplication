@@ -12,8 +12,8 @@ class UserAvatar extends StatelessWidget {
       height: 40,
       width: 40,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: Colors.orangeAccent,
+        // borderRadius: BorderRadius.circular(50),
+        // color: Colors.orangeAccent,
       ),
       child: Stack(
         children: <Widget>[
@@ -25,17 +25,17 @@ class UserAvatar extends StatelessWidget {
                     : AssetImage('images/avatar.png')
             )
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-              height: 12,
-              width: 12,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.green,
-              ),
-            ),
-          )
+          // Align(
+          //   alignment: Alignment.bottomRight,
+          //   child: Container(
+          //     height: 12,
+          //     width: 12,
+          //     decoration: BoxDecoration(
+          //       shape: BoxShape.circle,
+          //       color: Colors.green,
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
