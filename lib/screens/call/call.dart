@@ -66,7 +66,7 @@ class _CallScreenState extends State<CallScreen> {
           .callStream(uid: accountProvider.getAccount.uid)
           .listen((DocumentSnapshot ds) {
         // defining the logic
-        switch (ds.data) {
+        switch (ds.data()) {
           case null:
           // snapshot is null which means that call is hanged and documents are deleted
             Navigator.pop(context);
