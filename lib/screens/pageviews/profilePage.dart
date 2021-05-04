@@ -24,7 +24,6 @@ class ProfilePageState extends State<ProfilePage>{
         photo = user.photoURL;
         name = user.displayName;
         email = user.email;
-
       });
     });
   }
@@ -37,15 +36,17 @@ class ProfilePageState extends State<ProfilePage>{
         children:<Widget> [
           CircleAvatar(
             radius: 50,
-            backgroundImage: NetworkImage(photo),
+            backgroundImage: photo != null ?
+            NetworkImage(photo)
+                : AssetImage('images/avatar.png'),
           ),
-          Text(
+          name != null ? Text(
             name,
             style: TextStyle(
               fontSize: 40,
               fontWeight: FontWeight.bold,
             ),
-          ),
+          ) : Text(""),
           SizedBox(
             height: 20,
             width: 200,
@@ -58,10 +59,10 @@ class ProfilePageState extends State<ProfilePage>{
           //     Icons.phone
           // ),
 
-          InfoCard(
+          email != null ? InfoCard(
               email,
               Icons.email
-          ),
+          ) : Text(""),
           // InfoCard(url, Icons.web),
           // InfoCard(location, Icons.location_city)
         ],

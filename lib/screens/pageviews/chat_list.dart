@@ -1,42 +1,44 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:funchat/models/contact.dart';
+import 'package:funchat/provider/account_provider.dart';
 import 'package:funchat/screens/login.dart';
+import 'package:funchat/screens/pageviews/widgets/contactview.dart';
+import 'package:funchat/services/firebase_methods.dart';
 import 'package:funchat/services/firebase_repository.dart';
+import 'package:provider/provider.dart';
 
 
 import '../../components/sizeconfig.dart';
 import '../../components/tile.dart';
 import '../../components/user_avatar.dart';
-import '../../components/widget.dart';
 import '../search.dart';
 
-class ChatList extends StatefulWidget {
-  @override
-  _ChatListState createState() => _ChatListState();
-}
-
-class _ChatListState extends State<ChatList> {
-  static final FirebaseRepository _repository = FirebaseRepository();
-  String currentUserId;
-  String name;
-  String photo;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _repository.getCurrentUser().then((user) {
-      setState(() {
-        currentUserId = user.uid;
-        photo = user.photoURL;
-        name = user.displayName;
-      });
-    });
-  }
+class ChatList extends StatelessWidget {
+  AccountProvider accountProvider;
+  FirebaseMethods _firebaseMethods = new FirebaseMethods();
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    accountProvider = Provider.of<AccountProvider>(context);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.orangeAccent,
+        leading: UserAvatar(accountProvider.getAccount.avatar),
+        title: Center(
+          child: Text("Salut"),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
@@ -93,53 +95,31 @@ class _ChatListState extends State<ChatList> {
                 },
               ),
             ),
-            ListView.builder(
-                itemCount: 15,
-                shrinkWrap: true,
-                padding: EdgeInsets.all(12),
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Tile(
-                    mini: false,
-                    onTap: () {},
-                    title: Text(
-                      "Dummy Data",
-                      style: TextStyle(
-                          color: Colors.orangeAccent, fontFamily: "Arial", fontSize: 19),
-                    ),
-                    subtitle: Text(
-                      "Hello",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                      ),
-                    ),
-                    leading: Container(
-                      constraints: BoxConstraints(maxHeight: 50, maxWidth: 50),
-                      child: Stack(
-                        children: <Widget>[
-                          CircleAvatar(
-                            maxRadius: 50,
-                            backgroundColor: Colors.black,
-                            backgroundImage: AssetImage("images/avatar.png"),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              height: 14,
-                              width: 14,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.green,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }
-            )
+          StreamBuilder<QuerySnapshot>(
+                stream: _firebaseMethods.fetchContacts(
+                  userId: accountProvider.getAccount.uid,
+                ),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      var docList = snapshot.data.docs;
+                      if (docList.isEmpty) {
+                        return SizedBox(height: 1, width: 1,);
+                      }
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.all(12),
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: docList.length,
+                        itemBuilder: (context, index) {
+                          Contact contact = Contact.fromMap(docList[index].data());
+
+                          return ContactView(contact);
+                        },
+                      );
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  }
+              )
           ],
         ),
       ),

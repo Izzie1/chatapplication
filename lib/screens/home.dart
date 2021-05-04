@@ -58,22 +58,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return PickupLayout(
       scaffold: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.orangeAccent,
-          leading: UserAvatar(photo),
-          title: Center(
-            child: Text("Salut"),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.edit,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: Colors.white,
         body: PageView(
           children: <Widget>[
             Container(
