@@ -3,10 +3,11 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:funchat/components/user_avatar.dart';
+import 'package:funchat/enum/user_state.dart';
 import 'package:funchat/provider/account_provider.dart';
 import 'package:funchat/screens/call/pickup/pickup_layout.dart';
 import 'package:funchat/screens/pageviews/profilePage.dart';
+import 'package:funchat/services/firebase_methods.dart';
 import 'package:funchat/services/firebase_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -17,9 +18,8 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
-  static final FirebaseRepository _repository = FirebaseRepository();
-  String currentUserId;
+class _HomeState extends State<Home> with WidgetsBindingObserver {
+  final FirebaseMethods firebaseMethods = FirebaseMethods();
   String name;
   String photo;
   AccountProvider accountProvider;
@@ -30,18 +30,62 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _repository.getCurrentUser().then((user) {
-      setState(() {
-        currentUserId = user.uid;
-        photo = user.photoURL;
-        name = user.displayName;
-      });
-    });
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+
+    SchedulerBinding.instance.addPostFrameCallback((_) async{
       accountProvider = Provider.of<AccountProvider>(context, listen: false);
-      accountProvider.refreshUser();
+      await accountProvider.refreshUser();
+
+      firebaseMethods.setUserState(
+          userId: accountProvider.getAccount.uid,
+          userState: UserState.Online
+      );
     });
+
+    WidgetsBinding.instance.addObserver(this);
+
     pageController = PageController();
+  }
+
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    String currentUserId =
+    (accountProvider != null && accountProvider.getAccount != null)
+        ? accountProvider.getAccount.uid
+        : "";
+
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        currentUserId != null
+            ? firebaseMethods.setUserState(
+            userId: currentUserId, userState: UserState.Online)
+            : print("resume state");
+        break;
+      case AppLifecycleState.inactive:
+        currentUserId != null
+            ? firebaseMethods.setUserState(
+            userId: currentUserId, userState: UserState.Offline)
+            : print("inactive state");
+        break;
+      case AppLifecycleState.paused:
+        currentUserId != null
+            ? firebaseMethods.setUserState(
+            userId: currentUserId, userState: UserState.Offline)
+            : print("paused state");
+        break;
+      case AppLifecycleState.detached:
+        currentUserId != null
+            ? firebaseMethods.setUserState(
+            userId: currentUserId, userState: UserState.Offline)
+            : print("detached state");
+        break;
+    }
   }
 
   void onPageChanged(int page) {

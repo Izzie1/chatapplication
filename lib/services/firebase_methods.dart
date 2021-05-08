@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:funchat/enum/user_state.dart';
 import 'package:funchat/models/account.dart';
 import 'package:funchat/models/contact.dart';
 import 'package:funchat/models/message.dart';
@@ -217,4 +218,15 @@ class FirebaseMethods {
     DocumentSnapshot documentSnapshot = await userCollection.doc(id).get();
     return Account.fromMap(documentSnapshot.data());
   }
+
+  void setUserState({@required String userId, @required UserState userState}) {
+    int stateNum = Utils.stateToNum(userState);
+
+    userCollection.doc(userId).update({
+      "state": stateNum,
+    });
+  }
+
+  Stream<DocumentSnapshot> getUserStream({@required String uid}) =>
+      userCollection.doc(uid).snapshots();
 }

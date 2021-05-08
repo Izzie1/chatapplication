@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:funchat/screens/pageviews/infoCard.dart';
+import 'package:funchat/enum/user_state.dart';
+import 'package:funchat/provider/account_provider.dart';
+import 'package:funchat/screens/login.dart';
+import 'package:funchat/screens/pageviews/widgets/info_card.dart';
+import 'package:funchat/services/firebase_methods.dart';
 import 'package:funchat/services/firebase_repository.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePageState createState() => ProfilePageState();
@@ -10,6 +15,8 @@ class ProfilePageState extends State<ProfilePage>{
 
   @override
   static final FirebaseRepository _repository = FirebaseRepository();
+  static final FirebaseMethods firebaseMethods = FirebaseMethods();
+  AccountProvider accountProvider;
   String name;
   String photo;
   String email;
@@ -30,6 +37,7 @@ class ProfilePageState extends State<ProfilePage>{
 
   @override
   Widget build(BuildContext context) {
+    accountProvider = Provider.of<AccountProvider>(context, listen: false);
     return  SafeArea(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -63,6 +71,18 @@ class ProfilePageState extends State<ProfilePage>{
               email,
               Icons.email
           ) : Text(""),
+          FlatButton (
+            color: Colors.red,
+            onPressed: () {
+              firebaseMethods.setUserState(userId: accountProvider.getAccount.uid,
+                  userState: UserState.Offline);
+              _repository.signOut();
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                    return Login();
+                  }));
+            }
+          )
           // InfoCard(url, Icons.web),
           // InfoCard(location, Icons.location_city)
         ],

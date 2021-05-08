@@ -9,6 +9,9 @@ import 'package:funchat/screens/chat/chat.dart';
 import 'package:funchat/services/firebase_methods.dart';
 import 'package:provider/provider.dart';
 
+import 'last_message.dart';
+import 'online_dot.dart';
+
 class ContactView extends StatelessWidget {
   final Contact contact;
   final FirebaseMethods firebaseMethods = FirebaseMethods();
@@ -50,12 +53,10 @@ class ViewLayout extends StatelessWidget {
         style: TextStyle(
             color: Colors.orangeAccent, fontFamily: "Arial", fontSize: 19),
       ),
-      subtitle: Text(
-        "Hello",
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 14,
-        ),
+      subtitle: LastMessageContainer(
+          stream: firebaseMethods.fetchLastMessageBetween(
+              senderId: accountProvider.getAccount.uid,
+          receiverId: contact.uid)
       ),
       leading: Container(
         constraints: BoxConstraints(maxHeight: 50, maxWidth: 50),
@@ -71,16 +72,8 @@ class ViewLayout extends StatelessWidget {
             //   backgroundColor: Colors.black,
             //   backgroundImage: AssetImage("images/avatar.png"),
             // ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                height: 14,
-                width: 14,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.green,
-                ),
-              ),
+            OnlineDotIndicator(
+              uid: contact.uid
             )
           ],
         ),
