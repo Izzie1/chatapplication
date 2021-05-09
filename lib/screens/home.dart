@@ -6,6 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:funchat/enum/user_state.dart';
 import 'package:funchat/provider/account_provider.dart';
 import 'package:funchat/screens/call/pickup/pickup_layout.dart';
+import 'package:funchat/screens/pageviews/groups.dart';
 import 'package:funchat/screens/pageviews/profilePage.dart';
 import 'package:funchat/services/firebase_methods.dart';
 import 'package:funchat/services/firebase_repository.dart';
@@ -108,7 +109,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
               child: ChatList(),
             ),
             Center(
-                child: Text("Groups", style: TextStyle(color: Colors.black))),
+                child: GroupChat()
+            ),
             Center(
               child: ProfilePage(),
               )

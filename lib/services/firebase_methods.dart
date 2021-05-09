@@ -54,8 +54,9 @@ class FirebaseMethods {
         email: currentUser.email,
         name: currentUser.displayName,
         avatar: currentUser.photoURL,
-        username: Utils.getUsername(currentUser.email));
-
+        username: Utils.getUsername(currentUser.email),
+        groups: []
+    );
     userCollection.doc(currentUser.uid)
         .set(account.toMap(account));
   }

@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../../components/sizeconfig.dart';
 import '../../components/tile.dart';
 import '../../components/user_avatar.dart';
-import '../search.dart';
+import '../search/search.dart';
 
 class ChatList extends StatelessWidget {
   AccountProvider accountProvider;

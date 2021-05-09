@@ -8,6 +8,7 @@ class Account {
   String status;
   int state;
   String avatar;
+  var groups;
 
   Account(
       {this.uid,
@@ -16,7 +17,8 @@ class Account {
       this.username,
       this.status,
       this.state,
-      this.avatar});
+      this.avatar,
+      this.groups});
 
   Map toMap(Account account) {
     var data = Map<String, dynamic>();
@@ -26,6 +28,7 @@ class Account {
     data["username"] = account.username;
     data["status"] = account.status;
     data["state"] = account.state;
+    data["groups"] = account.groups;
     data["avatar"] = account.avatar;
     return data;
   }
@@ -37,6 +40,7 @@ class Account {
     this.username = mapData["username"];
     this.status = mapData["status"];
     this.state = mapData["state"];
+    this.groups = mapData["groups"];
     this.avatar = mapData["avatar"];
   }
 }

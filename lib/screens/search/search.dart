@@ -5,7 +5,7 @@ import 'package:funchat/components/user_avatar.dart';
 import 'package:funchat/models/account.dart';
 import 'package:funchat/services/firebase_repository.dart';
 
-import 'chat/chat.dart';
+import '../chat/chat.dart';
 
 class Search extends StatefulWidget {
   @override
