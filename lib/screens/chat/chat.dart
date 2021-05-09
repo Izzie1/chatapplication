@@ -342,9 +342,9 @@ class _ChatState extends State<Chat> {
                     : setWritingTo(false);
               },
               decoration: InputDecoration(
-                hintText: "Type a message",
+                hintText: "Type a message...",
                 hintStyle: TextStyle(
-                  color: Colors.grey,
+                  color: Colors.white,
                 ),
 
                 border: OutlineInputBorder(
@@ -381,7 +381,8 @@ class _ChatState extends State<Chat> {
               child: IconButton(
                 icon: Icon(
                   Icons.send,
-                  size: 15,
+                  size: 25,
+                  color: Colors.blue,
                 ),
                 onPressed: () => sendMessage(),
               ))

@@ -33,7 +33,7 @@ class ChatList extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.edit,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
         ],

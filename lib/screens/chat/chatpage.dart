@@ -5,42 +5,37 @@ import 'package:funchat/components/message_tile.dart';
 import 'package:funchat/services/group_methods.dart';
 
 class ChatPage extends StatefulWidget {
-
   final String groupId;
   final String userName;
   final String groupName;
 
-  ChatPage({
-    this.groupId,
-    this.userName,
-    this.groupName
-  });
+  ChatPage({this.groupId, this.userName, this.groupName});
 
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-
   Stream<QuerySnapshot> _chats;
   TextEditingController messageEditingController = new TextEditingController();
   GroupMethods groupMethods = new GroupMethods();
-  Widget _chatMessages(){
+
+  Widget _chatMessages() {
     return StreamBuilder(
       stream: _chats,
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
-        return snapshot.hasData ?  ListView.builder(
-            itemCount: snapshot.data.docs.length,
-            itemBuilder: (context, index){
-              return MessageTile(
-                message: snapshot.data.docs[index].get("message"),
-                sender: snapshot.data.docs[index].get("sender"),
-                sentByMe: widget.userName == snapshot.data.docs[index].get("sender"),
-              );
-            }
-        )
-            :
-        Container();
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  return MessageTile(
+                    message: snapshot.data.docs[index].get("message"),
+                    sender: snapshot.data.docs[index].get("sender"),
+                    sentByMe: widget.userName ==
+                        snapshot.data.docs[index].get("sender"),
+                  );
+                })
+            : Container();
       },
     );
   }
@@ -76,9 +71,9 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.groupName, style: TextStyle(color: Colors.white)),
+        title: Text("Group: " + widget.groupName, style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.orangeAccent,
         elevation: 0.0,
       ),
       body: Container(
@@ -90,29 +85,33 @@ class _ChatPageState extends State<ChatPage> {
               alignment: Alignment.bottomCenter,
               width: MediaQuery.of(context).size.width,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                color: Colors.grey[700],
+                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                color: Colors.white,
                 child: Row(
                   children: <Widget>[
                     Expanded(
                       child: TextField(
                         controller: messageEditingController,
-                        style: TextStyle(
-                            color: Colors.white
-                        ),
+                        style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                            hintText: "Send a message ...",
-                            hintStyle: TextStyle(
-                              color: Colors.white38,
-                              fontSize: 16,
-                            ),
-                            border: InputBorder.none
+                          hintText: "Type a message...",
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+
+                          border: OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(50.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          contentPadding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          filled: true,
+                          fillColor: Colors.grey,
                         ),
                       ),
                     ),
-
                     SizedBox(width: 12.0),
-
                     GestureDetector(
                       onTap: () {
                         _sendMessage();
@@ -122,9 +121,9 @@ class _ChatPageState extends State<ChatPage> {
                         width: 50.0,
                         decoration: BoxDecoration(
                             color: Colors.blueAccent,
-                            borderRadius: BorderRadius.circular(50)
-                        ),
-                        child: Center(child: Icon(Icons.send, color: Colors.white)),
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Center(
+                            child: Icon(Icons.send, color: Colors.white)),
                       ),
                     )
                   ],

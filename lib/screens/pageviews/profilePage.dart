@@ -71,8 +71,14 @@ class ProfilePageState extends State<ProfilePage>{
               email,
               Icons.email
           ) : Text(""),
+
+          SizedBox(
+            height: 150,
+            width: 200,
+          ),
           FlatButton (
-            color: Colors.red,
+            child: Text("SignOut"),
+            color: Colors.orangeAccent,
             onPressed: () {
               firebaseMethods.setUserState(userId: accountProvider.getAccount.uid,
                   userState: UserState.Offline);
