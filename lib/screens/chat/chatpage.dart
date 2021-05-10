@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:funchat/components/message_tile.dart';
+import 'package:funchat/screens/call/call_group.dart';
 import 'package:funchat/services/group_methods.dart';
+import 'package:funchat/ultilities/permissions.dart';
 
 class ChatPage extends StatefulWidget {
   final String groupId;
@@ -71,10 +75,41 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Group: " + widget.groupName, style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_sharp,
+            )),
+        title: Container(
+          child: Row(
+            children: [
+              SizedBox(
+                width: 8,
+              ),
+              Column(
+                children: [
+                  Text(
+                    widget.groupName,
+                    style: TextStyle(fontSize: 26),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.orangeAccent,
-        elevation: 0.0,
+        actions: <Widget>[
+          IconButton(
+              onPressed: () async =>
+                  await Permissions.cameraAndMicrophonePermissionsGranted()
+                      ? Navigator.push(context, MaterialPageRoute(builder: (context) => VideoRoom(groupId: widget.groupId,)))
+                      : {},
+              icon: Icon(
+                Icons.videocam,
+              )),
+        ],
       ),
       body: Container(
         child: Stack(
@@ -98,14 +133,13 @@ class _ChatPageState extends State<ChatPage> {
                           hintStyle: TextStyle(
                             color: Colors.white,
                           ),
-
                           border: OutlineInputBorder(
                               borderRadius: const BorderRadius.all(
                                 const Radius.circular(50.0),
                               ),
                               borderSide: BorderSide.none),
                           contentPadding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           filled: true,
                           fillColor: Colors.grey,
                         ),

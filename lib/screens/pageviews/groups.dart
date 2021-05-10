@@ -26,6 +26,7 @@ class GroupChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     accountProvider = Provider.of<AccountProvider>(context);
+    accountProvider.refreshUser();
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
