@@ -7,9 +7,11 @@ import 'package:funchat/enum/user_state.dart';
 import 'package:funchat/provider/account_provider.dart';
 import 'package:funchat/screens/call/pickup/pickup_layout.dart';
 import 'package:funchat/screens/pageviews/groups.dart';
+import 'package:funchat/screens/pageviews/logscreen.dart';
 import 'package:funchat/screens/pageviews/profilePage.dart';
 import 'package:funchat/services/firebase_methods.dart';
 import 'package:funchat/services/firebase_repository.dart';
+import 'package:funchat/services/local_db/repository/log_repository.dart';
 import 'package:provider/provider.dart';
 
 import 'pageviews/chat_list.dart';
@@ -40,6 +42,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           userId: accountProvider.getAccount.uid,
           userState: UserState.Online
       );
+      
+      LogRepository.init(isHive:false,dbName: accountProvider.getAccount.uid);
     });
 
     WidgetsBinding.instance.addObserver(this);
@@ -113,7 +117,10 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             ),
             Center(
               child: ProfilePage(),
-              )
+              ),
+            Center(
+              child: LogScreen(),
+            )
           ],
           controller: pageController,
           onPageChanged: onPageChanged,
@@ -159,7 +166,19 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                             color: (_page == 2)
                                 ? Colors.orangeAccent
                                 : Colors.grey),
-                      ))
+                      )),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.call,
+                          color:
+                          (_page == 3) ? Colors.orangeAccent : Colors.grey),
+                      title: Text(
+                        "Logs",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: (_page == 3)
+                                ? Colors.orangeAccent
+                                : Colors.grey),
+                      )),
                 ],
                 onTap: navigationTapped,
                 currentIndex: _page,

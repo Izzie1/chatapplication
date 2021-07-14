@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:math';
+import 'package:intl/intl.dart';
 import 'package:funchat/enum/user_state.dart';
 import 'package:image/image.dart' as Im;
 import 'package:image_picker/image_picker.dart';
@@ -49,5 +49,11 @@ class Utils {
       default:
         return UserState.Idle;
     }
+  }
+
+  static String formatDateString(String dateString) {
+    DateTime dateTime = DateTime.parse(dateString);
+    var formatter = DateFormat('dd/MM/yy');
+    return formatter.format(dateTime);
   }
 }

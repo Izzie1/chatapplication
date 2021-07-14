@@ -1,18 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:funchat/models/call.dart';
+import 'package:funchat/models/log.dart';
 import 'package:funchat/screens/chat/cached_image.dart';
 import 'package:funchat/services/call_methods.dart';
+import 'package:funchat/services/local_db/repository/log_repository.dart';
 import 'package:funchat/ultilities/permissions.dart';
 
 import '../call.dart';
 
-class PickupScreen extends StatelessWidget {
+class PickupScreen extends StatefulWidget {
   final Call call;
-  final CallMethods callMethods = CallMethods();
 
   PickupScreen({
     @required this.call,
   });
+
+  @override
+  _PickupScreenState createState() => _PickupScreenState();
+}
+
+class _PickupScreenState extends State<PickupScreen> {
+  final CallMethods callMethods = CallMethods();
+  addToLocalStorage({@required String callStatus}) {
+    Log log = Log(
+      callerName: widget.call.callerName,
+      callerPic: widget.call.callerPic,
+      receiverName: widget.call.receiverName,
+      receiverPic: widget.call.receiverPic,
+      timestamp: DateTime.now().toString(),
+      callStatus: callStatus,
+    );
+
+    LogRepository.addLogs(log);
+  }
+
+  bool isCallMissed = true;
+
+  void dispose(){
+    if (isCallMissed) {
+      addToLocalStorage(callStatus: "missed");
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +60,7 @@ class PickupScreen extends StatelessWidget {
             ),
             SizedBox(height: 50),
             CachedImage(
-              call.callerPic,
+              widget.call.callerPic,
               isRound: true,
               height: 150,
               width: 150,
@@ -39,7 +68,7 @@ class PickupScreen extends StatelessWidget {
             ),
             SizedBox(height: 15),
             Text(
-              call.callerName,
+              widget.call.callerName,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -53,16 +82,25 @@ class PickupScreen extends StatelessWidget {
                   icon: Icon(Icons.call_end),
                   color: Colors.redAccent,
                   onPressed: () async {
-                    await callMethods.endCall(call: call);
+                    isCallMissed = false;
+                    addToLocalStorage(callStatus: "received");
+                    await callMethods.endCall(call: widget.call);
                   },
                 ),
                 SizedBox(width: 25),
                 IconButton(
                   icon: Icon(Icons.call),
                   color: Colors.green,
-                  onPressed: () async => await Permissions.cameraAndMicrophonePermissionsGranted()?
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CallScreen(call: call,))) : {}
-                    
+                  onPressed: () async {
+                    isCallMissed = false;
+                    addToLocalStorage(callStatus: "received");
+
+                    await Permissions.cameraAndMicrophonePermissionsGranted()
+                        ?
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => CallScreen(call: widget.call,)))
+                        : {};
+                  }
                 ),
               ],
             ),

@@ -44,31 +44,6 @@ class ChatList extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // SafeArea(
-            //     child: Padding(
-            //       padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         children: <Widget>[
-            //           UserAvatar(photo),
-            //           Text(
-            //             "Chat",
-            //             style: customTextStyle(),
-            //           ),
-            //           Row(
-            //             children: [
-            //               IconButton(
-            //                 icon: Icon(
-            //                   Icons.edit,
-            //                   color: Colors.black,
-            //                 ),
-            //               ),
-            //             ],
-            //           )
-            //         ],
-            //       ),
-            //     )
-            // ),
             Padding(
               padding: EdgeInsets.all(16),
               child: InkWell(

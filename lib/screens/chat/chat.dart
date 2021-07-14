@@ -6,6 +6,7 @@ import 'package:funchat/enum/view_state.dart';
 import 'package:funchat/models/account.dart';
 import 'package:funchat/models/message.dart';
 import 'package:funchat/provider/image_upload_provider.dart';
+import 'package:funchat/screens/call/pickup/pickup_layout.dart';
 import 'package:funchat/screens/chat/cached_image.dart';
 import 'package:funchat/services/firebase_repository.dart';
 import 'package:funchat/ultilities/call_ultils.dart';
@@ -55,84 +56,86 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     imageUploadProvider = Provider.of<ImageUploadProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Colors.orange.shade400,
-                    Colors.orange.shade300,
-                    Colors.orangeAccent.shade200,
-                  ])
+    return PickupLayout(
+      scaffold: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.orange.shade400,
+                      Colors.orange.shade300,
+                      Colors.orangeAccent.shade200,
+                    ])
+            ),
           ),
-        ),
-        leading: IconButton(
-            onPressed: (){
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back_ios_sharp,
-            )
-        ),
-        title:  Container(
-          child: Row(
-            children: [
-              UserAvatar(
-                widget.receiver.avatar,
-              ),
-              SizedBox(width: 8,),
-              Column(
-                children: [
-                  Text(widget.receiver.name,
-                    style: TextStyle(
-                        fontSize: 16
-                    ),
-                  ),
-                  SizedBox(height: 16,)
-                ],
-              ),
-            ],
-          ),
-        ),
-        centerTitle: false,
-        actions: <Widget>[
-          IconButton(
+          leading: IconButton(
               onPressed: (){
+                Navigator.pop(context);
               },
               icon: Icon(
-                Icons.call,
+                Icons.arrow_back_ios_sharp,
               )
           ),
-          IconButton(
-              onPressed: () async => await Permissions.cameraAndMicrophonePermissionsGranted() ?
-              CallUtils.dial(
-                  from: sender,
-                  to: widget.receiver,
-                  context: context
-              ) : {},
-              icon: Icon(
-                Icons.videocam,
-              )
+          title:  Container(
+            child: Row(
+              children: [
+                UserAvatar(
+                  widget.receiver.avatar,
+                ),
+                SizedBox(width: 8,),
+                Column(
+                  children: [
+                    Text(widget.receiver.name,
+                      style: TextStyle(
+                          fontSize: 16
+                      ),
+                    ),
+                    SizedBox(height: 16,)
+                  ],
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          Flexible(
-            child: messageList(),
-          ),
-          imageUploadProvider.getViewSate == ViewState.LOADING
-              ? Container(
-              alignment: Alignment.centerRight,
-              margin: EdgeInsets.only(right: 15),
-              child: CircularProgressIndicator()
-          )
-              : Container(),
-          chatControls(),
-        ],
+          centerTitle: false,
+          actions: <Widget>[
+            IconButton(
+                onPressed: (){
+                },
+                icon: Icon(
+                  Icons.call,
+                )
+            ),
+            IconButton(
+                onPressed: () async => await Permissions.cameraAndMicrophonePermissionsGranted() ?
+                CallUtils.dial(
+                    from: sender,
+                    to: widget.receiver,
+                    context: context
+                ) : {},
+                icon: Icon(
+                  Icons.videocam,
+                )
+            ),
+          ],
+        ),
+        body: Column(
+          children: <Widget>[
+            Flexible(
+              child: messageList(),
+            ),
+            imageUploadProvider.getViewSate == ViewState.LOADING
+                ? Container(
+                alignment: Alignment.centerRight,
+                margin: EdgeInsets.only(right: 15),
+                child: CircularProgressIndicator()
+            )
+                : Container(),
+            chatControls(),
+          ],
+        ),
       ),
     );
   }
@@ -361,16 +364,18 @@ class _ChatState extends State<Chat> {
           ),
           isWriting
               ? Container()
-              : Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Icon(Icons.record_voice_over),
+              : GestureDetector(
+            onTap: () => pickImage(source: ImageSource.gallery),
+            child: Icon(
+              Icons.image,
+            ),
           ),
           isWriting
               ? Container()
               : GestureDetector(
             onTap: () => pickImage(source: ImageSource.camera),
             child: Icon(
-              Icons.image,
+              Icons.camera_alt,
             ),
           ),
           isWriting

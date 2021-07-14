@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "498207548366-0oo83o971gof1fqc08lis9m5on89cms6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yzie.flutterapp.funchat",
+            "certificate_hash": "bca018008f91b77f6d7fbfe552eb9d0e519fdc95"
+          }
+        },
+        {
+          "client_id": "498207548366-9fil7gvgm34i8bhc7hkjmqdcn0btg97c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yzie.flutterapp.funchat",
+            "certificate_hash": "19368cc9dc3131b7cd460ee765dd89de453d6f6e"
+          }
+        },
+        {
           "client_id": "498207548366-h9ae1q8vo7j0mcjcjkcqjp67u5fed0hr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -27,6 +43,14 @@
           "android_info": {
             "package_name": "com.yzie.flutterapp.funchat",
             "certificate_hash": "2828840499e03c849a8a386e0f91a2a5d494f16d"
+          }
+        },
+        {
+          "client_id": "498207548366-pfn31q999pr5kmqerkjpad46unuacimt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yzie.flutterapp.funchat",
+            "certificate_hash": "d6220c168367e2ff7798de719d2d1076870a1854"
           }
         },
         {
